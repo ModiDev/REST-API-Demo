@@ -26,6 +26,33 @@ app.get('/api/books/:id',(req,resp)=>{ // pass the parameter id
    if(!book) resp.status(404).send('Request not found') // if book object null or undefined
    else resp.send(book) // else send the response object
 })
+//post request
+app.post('/api/books/addBooks',(req,resp)=>{
+    const book = {
+        id:books.length + 1,
+        title:req.body.title
+    }
+    books.push(book)
+    resp.send(book)
+})
+//put request
+app.put('/api/books/:id',(req,resp)=>{
+    const book = books.find(v=>v.id === parseInt(req.params.id))
+    if(!book) resp.status(404).send('Request not found')
+    else book.title = req.body.title
+
+    resp.send(book)
+})
+//delete request
+app.delete('/api/books/:id',(req,resp)=>{
+    const book = books.find(v=>v.id === parseInt(req.params.id))
+    if(!book) resp.status(404).send('Request Not Found')
+    const index = books.indexOf(book)
+    books.splice(index,1)
+
+    resp.send(book)
+})
+
 //api server port
 app.listen(3000)
 
